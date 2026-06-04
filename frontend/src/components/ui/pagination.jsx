@@ -1,100 +1,64 @@
-import * as React from "react"
-import { ChevronLeft, ChevronRight, ThreeDots } from "react-bootstrap-icons"
+import * as React from "react";
+import { Pagination } from "@ark-ui/react/pagination";
+import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button";
+export const CustomPagination = ({ count, pageSize, page, onPageChange }) => {
+  return (
+    <Pagination.Root
+      count={count}
+      pageSize={pageSize}
+      page={page}
+      onPageChange={(details) => onPageChange(details.page)}
+      className="flex flex-col sm:flex-row items-center justify-between gap-6 w-full max-w-2xl mx-auto py-8 px-4 font-mono select-none"
+    >
+      {/* Previous Page Trigger */}
+      <Pagination.PrevTrigger className="pixel-btn text-[9px] px-3.5 py-2.5 bg-brand text-white border-2 border-black active:translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none">
+        <ChevronLeft size={12} className="mr-1.5" />
+        Anterior
+      </Pagination.PrevTrigger>
 
-const Pagination = ({
-  className,
-  ...props
-}) => (
-  <nav
-    role="navigation"
-    aria-label="pagination"
-    className={cn("mx-auto flex w-full justify-center", className)}
-    {...props} />
-)
-Pagination.displayName = "Pagination"
+      {/* Pages Context List */}
+      <Pagination.Context>
+        {(api) => (
+          <div className="flex items-center gap-2.5">
+            {api.pages.map((page, index) => {
+              if (page.type === "page") {
+                const isActive = page.value === api.page;
+                return (
+                  <button
+                    key={index}
+                    onClick={() => api.setPage(page.value)}
+                    className={`h-9 w-9 border-2 border-black flex items-center justify-center text-[10px] font-display transition-all shadow-[2px_2px_0px_#000000] active:translate-y-0.5 ${
+                      isActive
+                        ? "bg-brand text-white text-shadow-sm"
+                        : "bg-[#181822] text-neutral-400 hover:text-white hover:border-brand"
+                    }`}
+                  >
+                    {page.value}
+                  </button>
+                );
+              } else {
+                return (
+                  <span
+                    key={index}
+                    className="h-9 w-9 flex items-center justify-center text-neutral-500 font-bold text-xs"
+                  >
+                    ...
+                  </span>
+                );
+              }
+            })}
+          </div>
+        )}
+      </Pagination.Context>
 
-const PaginationContent = React.forwardRef(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    className={cn("flex flex-row items-center gap-1", className)}
-    {...props} />
-))
-PaginationContent.displayName = "PaginationContent"
+      {/* Next Page Trigger */}
+      <Pagination.NextTrigger className="pixel-btn text-[9px] px-3.5 py-2.5 bg-brand text-white border-2 border-black active:translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none">
+        Próximo
+        <ChevronRight size={12} className="ml-1.5" />
+      </Pagination.NextTrigger>
+    </Pagination.Root>
+  );
+};
 
-const PaginationItem = React.forwardRef(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
-))
-PaginationItem.displayName = "PaginationItem"
-
-const PaginationLink = ({
-  className,
-  isActive,
-  size = "icon",
-  ...props
-}) => (
-  <a
-    aria-current={isActive ? "page" : undefined}
-    className={cn(buttonVariants({
-      variant: isActive ? "outline" : "ghost",
-      size,
-    }), className)}
-    {...props} />
-)
-PaginationLink.displayName = "PaginationLink"
-
-const PaginationPrevious = ({
-  className,
-  ...props
-}) => (
-  <PaginationLink
-    aria-label="Go to previous page"
-    size="default"
-    className={cn("gap-1 pl-2.5", className)}
-    {...props}>
-    <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
-  </PaginationLink>
-)
-PaginationPrevious.displayName = "PaginationPrevious"
-
-const PaginationNext = ({
-  className,
-  ...props
-}) => (
-  <PaginationLink
-    aria-label="Go to next page"
-    size="default"
-    className={cn("gap-1 pr-2.5", className)}
-    {...props}>
-    <span>Next</span>
-    <ChevronRight className="h-4 w-4" />
-  </PaginationLink>
-)
-PaginationNext.displayName = "PaginationNext"
-
-const PaginationEllipsis = ({
-  className,
-  ...props
-}) => (
-  <span
-    aria-hidden
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
-    {...props}>
-    <ThreeDots className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
-  </span>
-)
-PaginationEllipsis.displayName = "PaginationEllipsis"
-
-export {
-  Pagination,
-  PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationEllipsis,
-}
+export default CustomPagination;

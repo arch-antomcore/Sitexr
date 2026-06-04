@@ -36,6 +36,12 @@ export const DealCard = ({ post, index = 0 }) => {
           </span>
         ) : null}
 
+        {post.joined_count >= 3 ? (
+          <span className="absolute bottom-3 left-3 bg-[#00ff66] border-2 border-black text-black font-display text-[7px] tracking-tight px-2 py-0.5 animate-pulse shadow-[2px_2px_0px_#000000]">
+            META ATINGIDA
+          </span>
+        ) : null}
+
         <span className="absolute top-3 right-3 bg-[#181822] border-2 border-black text-[#00ff66] font-mono text-[9px] uppercase tracking-wider px-2 py-0.5">
           {categoryLabel(post.category)}
         </span>

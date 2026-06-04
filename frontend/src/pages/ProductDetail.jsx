@@ -12,6 +12,7 @@ import AddDealModal from "@/components/AddDealModal";
 import AdSlot from "@/components/AdSlot";
 import { fetchPost, joinGroup, likePost } from "@/lib/api";
 import { categoryLabel } from "@/lib/categories";
+import RetroTerminalLog from "@/components/RetroTerminalLog";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -21,6 +22,7 @@ export default function ProductDetail() {
   const [likes, setLikes] = useState(0);
   const [joined, setJoined] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
+  const [terminalOpen, setTerminalOpen] = useState(false);
 
   const { data: post, isLoading, isError } = useQuery({
     queryKey: ["post", id],
@@ -49,11 +51,15 @@ export default function ProductDetail() {
 
   const handleJoin = async () => {
     if (!post?.group_url) return;
-    setJoined((n) => n + 1);
+    const newJoined = joined + 1;
+    setJoined(newJoined);
     try {
       await joinGroup(id);
     } catch {
       /* non-blocking */
+    }
+    if (newJoined >= 3) {
+      setTerminalOpen(true);
     }
     toast.success("Abrindo o grupo no AliExpress...");
     window.open(post.group_url, "_blank", "noopener,noreferrer");
@@ -143,13 +149,19 @@ export default function ProductDetail() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="lg:sticky lg:top-28"
             >
-              <div className="flex items-center gap-3 mb-5">
+              <div className="flex items-center gap-3 mb-5 flex-wrap">
                 <span className="inline-flex items-center gap-1.5 border-2 border-black bg-[#181822] text-[#00ff66] font-mono text-[9px] uppercase tracking-wider px-3 py-1.5 shadow-[2px_2px_0px_#000000]">
                   <Tag size={12} /> {categoryLabel(post.category)}
                 </span>
-                <span className="inline-flex items-center gap-1.5 text-[#00ff66] font-mono text-[9px] uppercase tracking-wider font-bold">
-                  <ShieldCheck size={14} /> verificado
-                </span>
+                {joined >= 3 ? (
+                  <span className="inline-flex items-center gap-1.5 border-2 border-[#00ff66] bg-black text-[#00ff66] font-display text-[8px] uppercase px-3 py-1.5 shadow-[2px_2px_0px_#00ff66] animate-pulse">
+                    [ META ATINGIDA ]
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-[#00ff66] font-mono text-[9px] uppercase tracking-wider font-bold">
+                    <ShieldCheck size={14} /> verificado
+                  </span>
+                )}
               </div>
 
               <h1 className="font-body font-bold text-lg sm:text-2xl leading-normal text-white uppercase tracking-wide">
@@ -228,7 +240,23 @@ export default function ProductDetail() {
       </main>
 
       <Footer />
+
+      {/* Left/Right Skyscraper Ads (Large screens) */}
+      <div className="hidden 2xl:block fixed left-4 top-28 z-40">
+        <AdSlot variant="skyscraper" />
+      </div>
+      <div className="hidden 2xl:block fixed right-4 top-28 z-40">
+        <AdSlot variant="skyscraper" />
+      </div>
+
       <AddDealModal open={modalOpen} onOpenChange={setModalOpen} />
+
+      {/* Floating Retro Terminal Simulation */}
+      <RetroTerminalLog
+        open={terminalOpen}
+        onClose={() => setTerminalOpen(false)}
+        productName={post.title}
+      />
     </div>
   );
 }

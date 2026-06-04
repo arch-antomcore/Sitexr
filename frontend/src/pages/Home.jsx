@@ -11,6 +11,7 @@ import AddDealModal from "@/components/AddDealModal";
 import AdSlot from "@/components/AdSlot";
 import FAQAccordion from "@/components/FAQAccordion";
 import { fetchPosts, fetchStats } from "@/lib/api";
+import CustomPagination from "@/components/ui/pagination";
 
 const STEPS = [
   {
@@ -36,6 +37,21 @@ export default function Home() {
   const [sort, setSort] = useState("recent");
   const [q, setQ] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 8;
+
+  const handleCategoryChange = (cat) => {
+    setCategory(cat);
+    setPage(1);
+  };
+  const handleSortChange = (srt) => {
+    setSort(srt);
+    setPage(1);
+  };
+  const handleQChange = (val) => {
+    setQ(val);
+    setPage(1);
+  };
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["posts", category, sort, q],
@@ -49,11 +65,15 @@ export default function Home() {
     qc.invalidateQueries({ queryKey: ["stats"] });
   };
 
-  // Interleave a native ad every 6 cards.
+  const totalItems = posts.length;
+  const startIndex = (page - 1) * itemsPerPage;
+  const paginatedPosts = posts.slice(startIndex, startIndex + itemsPerPage);
+
+  // Interleave a native ad every 6 cards of the current page.
   const feedItems = [];
-  posts.forEach((p, i) => {
+  paginatedPosts.forEach((p, i) => {
     feedItems.push({ type: "post", post: p, idx: i });
-    if ((i + 1) % 6 === 0 && i !== posts.length - 1) {
+    if ((i + 1) % 6 === 0 && i !== paginatedPosts.length - 1) {
       feedItems.push({ type: "ad", idx: `ad-${i}` });
     }
   });
@@ -85,7 +105,7 @@ export default function Home() {
             <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" />
             <input
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => handleQChange(e.target.value)}
               placeholder="Buscar produto..."
               data-testid="search-input"
               className="w-full bg-[#181822] border-4 border-black focus:border-brand focus:outline-none text-white pl-10 pr-4 py-3 font-body text-xs shadow-[2px_2px_0px_#000000] placeholder:text-neutral-500"
@@ -93,7 +113,7 @@ export default function Home() {
           </div>
         </div>
 
-        <CategoryFilter active={category} onChange={setCategory} sort={sort} onSortChange={setSort} />
+        <CategoryFilter active={category} onChange={handleCategoryChange} sort={sort} onSortChange={handleSortChange} />
 
         <div className="mt-10">
           {isLoading ? (
@@ -122,15 +142,25 @@ export default function Home() {
               </button>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {feedItems.map((item) =>
-                item.type === "ad" ? (
-                  <AdSlot key={item.idx} variant="native" />
-                ) : (
-                  <DealCard key={item.post.id} post={item.post} index={item.idx} />
-                )
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-[fadeIn_0.3s_ease-out]">
+                {feedItems.map((item) =>
+                  item.type === "ad" ? (
+                    <AdSlot key={item.idx} variant="native" />
+                  ) : (
+                    <DealCard key={item.post.id} post={item.post} index={item.idx} />
+                  )
+                )}
+              </div>
+              {totalItems > itemsPerPage && (
+                <CustomPagination
+                  count={totalItems}
+                  pageSize={itemsPerPage}
+                  page={page}
+                  onPageChange={setPage}
+                />
               )}
-            </div>
+            </>
           )}
         </div>
       </main>
@@ -178,6 +208,14 @@ export default function Home() {
       </div>
 
       <Footer />
+
+      {/* Left/Right Skyscraper Ads (Large screens) */}
+      <div className="hidden 2xl:block fixed left-4 top-28 z-40">
+        <AdSlot variant="skyscraper" />
+      </div>
+      <div className="hidden 2xl:block fixed right-4 top-28 z-40">
+        <AdSlot variant="skyscraper" />
+      </div>
 
       <AddDealModal open={modalOpen} onOpenChange={setModalOpen} onCreated={handleCreated} />
     </div>
