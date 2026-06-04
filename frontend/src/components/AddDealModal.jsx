@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Loader2, Search, Link2, X, Sparkles, ImageOff } from "lucide-react";
 import { scrapeUrl, createPost } from "@/lib/api";
 import { POST_CATEGORIES } from "@/lib/categories";
@@ -90,6 +90,10 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
         className="max-w-2xl p-0 gap-0 bg-surface border border-white/15 max-h-[92vh] overflow-y-auto [&>button]:hidden"
         data-testid="add-deal-modal"
       >
+        <DialogTitle className="sr-only">Divulgar grupo</DialogTitle>
+        <DialogDescription className="sr-only">
+          Cole o link do grupo do AliExpress para criar um post automaticamente.
+        </DialogDescription>
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 sticky top-0 bg-surface z-10">
           <div className="flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center bg-cyber-yellow text-ink">
