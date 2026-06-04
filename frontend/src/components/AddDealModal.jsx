@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Loader2, Search, Link2, X, Sparkles, ImageOff } from "lucide-react";
+import { ArrowClockwise, Search, Link, XLg, Stars, CardImage } from "react-bootstrap-icons";
 import { scrapeUrl, createPost } from "@/lib/api";
 import { POST_CATEGORIES } from "@/lib/categories";
 
@@ -107,12 +107,12 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
             className="absolute top-5 right-5 h-8 w-8 flex items-center justify-center bg-black/5 hover:bg-black/10 rounded-full text-black/60 hover:text-black transition-colors"
             data-testid="close-modal-button"
           >
-            <X size={16} strokeWidth={2.5} />
+            <XLg size={16} strokeWidth={2.5} />
           </button>
 
           <div className="relative z-10 flex flex-col items-center text-center">
             <div className="h-14 w-14 bg-white shadow-sm border border-black/5 rounded-[18px] flex items-center justify-center text-brand mb-4 -rotate-3 hover:rotate-0 transition-transform duration-300">
-              <Sparkles size={24} strokeWidth={2.5} />
+              <Stars size={24} strokeWidth={2.5} />
             </div>
             <h2 className="font-display font-black text-2xl sm:text-3xl tracking-tight text-ink">
               Compartilhe um Achado
@@ -130,7 +130,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
             {/* Search Input Bar */}
             <div className="relative group">
               <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-neutral-400 group-focus-within:text-brand transition-colors">
-                <Link2 size={18} strokeWidth={2.5} />
+                <Link size={18} strokeWidth={2.5} />
               </div>
               <input
                 value={form.group_url}
@@ -145,7 +145,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                 data-testid="scrape-button"
                 className="absolute right-1.5 top-1.5 bottom-1.5 inline-flex items-center justify-center gap-2 bg-ink text-white font-body font-bold px-6 rounded-xl hover:bg-black transition-all hover:scale-[0.98] active:scale-95 disabled:opacity-60 shadow-sm"
               >
-                {scraping ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} strokeWidth={2.5} />}
+                {scraping ? <ArrowClockwise size={16} className="animate-spin" /> : <Search size={16} strokeWidth={2.5} />}
                 {scraping ? "Lendo..." : "Buscar"}
               </button>
             </div>
@@ -168,7 +168,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
                         </>
                       ) : (
-                        <ImageOff size={24} className="text-neutral-300" />
+                        <CardImage size={24} className="text-neutral-300" />
                       )}
                     </div>
                     
@@ -273,7 +273,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                       disabled={publishing}
                       className="w-full inline-flex items-center justify-center gap-2 bg-brand text-white font-display font-bold text-lg py-4 rounded-xl hover:bg-[#d64022] transition-all disabled:opacity-60 hover:scale-[1.01] active:scale-[0.98] shadow-[0_8px_20px_-8px_rgba(229,77,46,0.6)]"
                     >
-                      {publishing ? <Loader2 size={20} className="animate-spin" /> : <Sparkles size={20} />}
+                      {publishing ? <ArrowClockwise size={20} className="animate-spin" /> : <Stars size={20} />}
                       Publicar no Mural
                     </button>
                   </div>

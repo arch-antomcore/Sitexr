@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Users, Sparkle } from "lucide-react";
+import { ArrowRight, People } from "react-bootstrap-icons";
 
 const SHOWCASE = {
   figure:
@@ -110,7 +110,7 @@ export const Hero = ({ stats, onAddDeal }) => {
               <div className="h-10 w-px bg-black/10" />
               <div>
                 <div className="font-display font-black text-3xl text-ink flex items-center gap-2">
-                  <Users size={24} className="text-brand" /> 3+
+                  <People size={24} className="text-brand" /> 3+
                 </div>
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500 mt-1">
                   p/ liberar desconto
@@ -127,7 +127,6 @@ export const Hero = ({ stats, onAddDeal }) => {
               <Case src={SHOWCASE.anime} caption="Estátua · Colecionável" delay={0.35} />
             </div>
             <div className="hidden md:flex items-center gap-2 justify-end mt-4 text-neutral-400">
-              <Sparkle size={13} className="text-brand" />
               <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
                 acervo curado da comunidade
               </span>

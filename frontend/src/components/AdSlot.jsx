@@ -1,4 +1,4 @@
-import { Megaphone } from "lucide-react";
+import { Megaphone } from "react-bootstrap-icons";
 
 /**
  * Reserved advertising placements. Drop real ad markup (AdSense, affiliate

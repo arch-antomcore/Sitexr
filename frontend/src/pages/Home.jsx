@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { PackageOpen, Search, Loader2, Link2, Tag, Users } from "lucide-react";
+import { BoxSeam, Search, ArrowClockwise, Link, Tag, People } from "react-bootstrap-icons";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
@@ -13,7 +13,7 @@ import { fetchPosts, fetchStats } from "@/lib/api";
 
 const STEPS = [
   {
-    icon: Link2,
+    icon: Link,
     title: "Cole o link",
     desc: "Pegue o link de compra em grupo do produto no AliExpress e cole na plataforma.",
   },
@@ -23,7 +23,7 @@ const STEPS = [
     desc: "Buscamos a imagem e o nome automaticamente e montamos o card da oferta.",
   },
   {
-    icon: Users,
+    icon: People,
     title: "Junte 3+ pessoas",
     desc: "A comunidade entra no seu grupo e todos garantem o preço promocional.",
   },
@@ -97,7 +97,7 @@ export default function Home() {
         <div className="mt-10">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-32 text-neutral-400">
-              <Loader2 size={32} className="animate-spin text-brand" />
+              <ArrowClockwise size={32} className="animate-spin text-brand" />
               <p className="font-mono text-xs uppercase tracking-[0.15em] mt-4">carregando acervo...</p>
             </div>
           ) : posts.length === 0 ? (
@@ -107,7 +107,7 @@ export default function Home() {
               className="flex flex-col items-center justify-center py-24 bg-white border border-dashed border-black/15 rounded-xl text-center px-6"
               data-testid="empty-state"
             >
-              <PackageOpen size={44} className="text-neutral-300 mb-5" />
+              <BoxSeam size={44} className="text-neutral-300 mb-5" />
               <h3 className="font-display font-bold text-xl text-ink">Nenhum grupo por aqui ainda</h3>
               <p className="font-body text-neutral-500 text-sm max-w-sm mt-2">
                 Seja o primeiro a divulgar um grupo de figures ou miniaturas nesta categoria.

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Users, ImageOff } from "lucide-react";
+import { ArrowUpRight, People, CardImage } from "react-bootstrap-icons";
 import { categoryLabel } from "@/lib/categories";
 
 export const DealCard = ({ post, index = 0 }) => {
@@ -26,7 +26,7 @@ export const DealCard = ({ post, index = 0 }) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-neutral-300">
-            <ImageOff size={36} />
+            <CardImage size={36} />
           </div>
         )}
 
@@ -59,7 +59,7 @@ export const DealCard = ({ post, index = 0 }) => {
 
         <div className="flex items-center justify-between mt-1 pt-4 border-t border-neutral-100 text-sm">
           <span className="inline-flex items-center gap-1.5 text-neutral-500 font-body">
-            <Users size={14} className="text-brand" /> {post.joined_count} no grupo
+            <People size={14} className="text-brand" /> {post.joined_count} no grupo
           </span>
           <span className="inline-flex items-center gap-1 text-ink font-medium group-hover:text-brand transition-colors">
             Ver <ArrowUpRight size={14} />

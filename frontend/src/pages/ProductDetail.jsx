@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import {
-  ArrowLeft, Heart, Users, ExternalLink, ShieldCheck, Loader2, ImageOff, Tag,
-} from "lucide-react";
+  ArrowLeft, Heart, People, BoxArrowUpRight, ShieldCheck, ArrowClockwise, CardImage, Tag,
+} from "react-bootstrap-icons";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AddDealModal from "@/components/AddDealModal";
@@ -62,7 +62,7 @@ export default function ProductDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-paper flex items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-brand" />
+        <ArrowClockwise size={32} className="animate-spin text-brand" />
       </div>
     );
   }
@@ -107,7 +107,7 @@ export default function ProductDetail() {
                 <img src={mainImg} alt={post.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                  <ImageOff size={56} />
+                  <CardImage size={56} />
                 </div>
               )}
               {post.discount ? (
@@ -179,7 +179,7 @@ export default function ProductDetail() {
                   </div>
                   <div className="text-right">
                     <div className="font-display font-black text-2xl text-ink flex items-center gap-2">
-                      <Users size={20} className="text-brand" /> {joined}
+                      <People size={20} className="text-brand" /> {joined}
                     </div>
                     <div className="font-mono text-[10px] uppercase tracking-widest text-neutral-500 mt-1">
                       já entraram
@@ -192,7 +192,7 @@ export default function ProductDetail() {
                   data-testid="join-group-button"
                   className="w-full mt-6 inline-flex items-center justify-center gap-2 bg-brand text-white font-body font-bold py-4 rounded-lg hover:bg-brand-dark transition-colors active:scale-[0.99]"
                 >
-                  Entrar no grupo <ExternalLink size={16} />
+                  Entrar no grupo <BoxArrowUpRight size={16} />
                 </button>
                 <p className="font-body text-[12px] text-neutral-500 text-center mt-3">
                   Você será levado ao AliExpress com o grupo já aplicado.

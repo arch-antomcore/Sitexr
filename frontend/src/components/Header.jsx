@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Plus } from "lucide-react";
+import { PlusLg } from "react-bootstrap-icons";
 
 export const Header = ({ onAddDeal }) => {
   return (
@@ -39,7 +39,7 @@ export const Header = ({ onAddDeal }) => {
           data-testid="header-add-deal-button"
           className="inline-flex items-center gap-2 bg-brand text-white font-body font-semibold text-sm px-5 py-2.5 rounded-full hover:bg-brand-dark transition-colors active:scale-95"
         >
-          <Plus size={16} strokeWidth={2.75} />
+          <PlusLg size={16} strokeWidth={2.75} />
           <span className="hidden sm:inline">Divulgar grupo</span>
           <span className="sm:hidden">Postar</span>
         </motion.button>

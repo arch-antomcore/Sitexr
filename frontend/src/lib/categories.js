@@ -1,11 +1,11 @@
-import { Layers, Swords, Car, Sparkles, Gamepad2, Boxes } from "lucide-react";
+import { Layers, PersonStanding, CarFront, Stars, Controller, Boxes } from "react-bootstrap-icons";
 
 export const CATEGORIES = [
   { id: "all", label: "Todos", icon: Layers },
-  { id: "figures", label: "Figures", icon: Swords },
-  { id: "carrinhos", label: "Carrinhos", icon: Car },
-  { id: "anime", label: "Anime", icon: Sparkles },
-  { id: "games", label: "Games", icon: Gamepad2 },
+  { id: "figures", label: "Figures", icon: PersonStanding },
+  { id: "carrinhos", label: "Carrinhos", icon: CarFront },
+  { id: "anime", label: "Anime", icon: Stars },
+  { id: "games", label: "Games", icon: Controller },
   { id: "outros", label: "Outros", icon: Boxes },
 ];
 
