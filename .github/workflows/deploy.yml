@@ -28,13 +28,13 @@ jobs:
       
       - name: Install dependencies
         working-directory: ./frontend
-        run: yarn install
+        run: npm install --legacy-peer-deps
       
       - name: Build
         working-directory: ./frontend
         env:
           CI: false
-        run: yarn build
+        run: npm run build
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
