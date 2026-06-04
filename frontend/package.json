@@ -1,6 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "homepage": "https://arch-antomcore.github.io/Sitexr",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "5.0.1",
