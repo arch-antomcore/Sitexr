@@ -70,6 +70,7 @@ class Post(BaseModel):
 class PostCreate(BaseModel):
     title: str
     image: Optional[str] = None
+    images: Optional[List[str]] = None
     group_url: str
     current_price: Optional[str] = None
     original_price: Optional[str] = None
@@ -131,76 +132,159 @@ def guess_category(text: str) -> str:
     return "outros"
 
 
+PRODUCT_ID_PATTERNS = [
+    r"/item/(\d{8,16})",
+    r"/(\d{10,16})\.html",
+    r"[?&](?:productId|objectId|itemId|product_id|productIds)=(\d{8,16})",
+    r"/i/(\d{8,16})",
+    r"/p/[a-z0-9\-]*?/?(\d{10,16})",
+]
+
+
+def extract_product_id(*sources) -> Optional[str]:
+    for s in sources:
+        if not s:
+            continue
+        for pat in PRODUCT_ID_PATTERNS:
+            m = re.search(pat, s)
+            if m:
+                return m.group(1)
+    for s in sources:
+        if not s:
+            continue
+        runs = re.findall(r"\d{10,16}", s)
+        if runs:
+            return max(runs, key=len)
+    return None
+
+
+def _clean_title(t: Optional[str]) -> Optional[str]:
+    if not t:
+        return None
+    t = re.sub(r"\s*[-|–]\s*AliExpress.*$", "", t, flags=re.IGNORECASE).strip()
+    return t or None
+
+
+def _norm_img(u: Optional[str]) -> Optional[str]:
+    if not u:
+        return None
+    u = u.strip()
+    if u.startswith("//"):
+        u = "https:" + u
+    return u
+
+
+def _meta(soup, *keys) -> Optional[str]:
+    for k in keys:
+        tag = soup.find("meta", property=k) or soup.find("meta", attrs={"name": k})
+        if tag and tag.get("content"):
+            return tag["content"].strip()
+    return None
+
+
+def _parse_page(html: str) -> dict:
+    soup = BeautifulSoup(html, "lxml")
+    title = _clean_title(_meta(soup, "og:title", "twitter:title"))
+    if not title and soup.title and soup.title.string:
+        title = _clean_title(soup.title.string.strip())
+    image = _norm_img(_meta(soup, "og:image", "twitter:image", "twitter:image:src"))
+    description = _meta(soup, "og:description", "description", "twitter:description")
+
+    images = []
+    m = re.search(r'"imagePathList"\s*:\s*(\[[^\]]*\])', html)
+    if m:
+        try:
+            arr = json.loads(m.group(1))
+            images = [_norm_img(x) for x in arr if isinstance(x, str)]
+        except Exception:
+            pass
+    if image:
+        images = [image] + [i for i in images if i and i != image]
+    images = [i for i in images if i][:8]
+
+    candidates = []
+    for pat in [
+        r'"formatedActivityPrice"\s*:\s*"([^"]+)"',
+        r'"formatedPrice"\s*:\s*"([^"]+)"',
+        r'"salePrice"\s*:\s*"([^"]+)"',
+    ]:
+        candidates.extend(re.findall(pat, html))
+    og_price = _meta(soup, "og:price:amount", "product:price:amount")
+    if og_price:
+        candidates.append(og_price)
+
+    return {
+        "title": title,
+        "image": image,
+        "images": images,
+        "description": description,
+        "price_candidates": candidates,
+    }
+
+
 def _scrape_sync(url: str) -> dict:
     result = {
-        "ok": False,
-        "title": None,
-        "image": None,
-        "description": None,
-        "current_price": None,
-        "original_price": None,
-        "currency": "R$",
-        "final_url": url,
-        "category": "outros",
+        "ok": False, "title": None, "image": None, "images": [],
+        "description": None, "current_price": None, "original_price": None,
+        "currency": "R$", "final_url": url, "category": "outros", "product_id": None,
     }
     try:
-        resp = requests.get(url, headers=SCRAPE_HEADERS, timeout=15, allow_redirects=True)
+        # 1) Resolve the pasted link (follows short / affiliate / group links).
+        resp = requests.get(url, headers=SCRAPE_HEADERS, timeout=18, allow_redirects=True)
+        final_url = str(resp.url)
+        result["final_url"] = final_url
         html = resp.text or ""
-        result["final_url"] = str(resp.url)
-        soup = BeautifulSoup(html, "lxml")
+        parsed = _parse_page(html)
 
-        def meta(*keys):
-            for k in keys:
-                tag = soup.find("meta", property=k) or soup.find("meta", attrs={"name": k})
-                if tag and tag.get("content"):
-                    return tag["content"].strip()
-            return None
+        # 2) Resolve the product id and fetch the canonical item page, which
+        #    reliably exposes og:image + the full image gallery + title.
+        pid = extract_product_id(final_url, url, html[:300000])
+        result["product_id"] = pid
+        if pid and not parsed["image"]:
+            for host in ("https://www.aliexpress.com", "https://pt.aliexpress.com"):
+                try:
+                    r2 = requests.get(f"{host}/item/{pid}.html",
+                                      headers=SCRAPE_HEADERS, timeout=18, allow_redirects=True)
+                    p2 = _parse_page(r2.text or "")
+                    if p2["image"]:
+                        parsed = {
+                            "title": parsed["title"] or p2["title"],
+                            "image": p2["image"],
+                            "images": p2["images"] or parsed["images"],
+                            "description": parsed["description"] or p2["description"],
+                            "price_candidates": parsed["price_candidates"] or p2["price_candidates"],
+                        }
+                        break
+                except Exception:
+                    continue
 
-        title = meta("og:title", "twitter:title")
-        if not title and soup.title and soup.title.string:
-            title = soup.title.string.strip()
-        image = meta("og:image", "twitter:image", "twitter:image:src")
-        description = meta("og:description", "description", "twitter:description")
+        # 3) Last resort: an alicdn image embedded directly in the pasted URL.
+        if not parsed["image"]:
+            from urllib.parse import unquote
+            decoded = unquote(url)
+            m = re.search(r"https?://[^\"'\s&]*alicdn[^\"'\s&]*\.(?:jpg|jpeg|png|webp)", decoded, re.IGNORECASE)
+            if m:
+                parsed["image"] = _norm_img(m.group(0))
+                parsed["images"] = [parsed["image"]]
 
-        # Price candidates from known AliExpress JSON keys + OG price meta
-        candidates = []
-        for pat in [
-            r'"formatedActivityPrice"\s*:\s*"([^"]+)"',
-            r'"formatedPrice"\s*:\s*"([^"]+)"',
-            r'"salePrice"\s*:\s*"([^"]+)"',
-            r'"minActivityAmount"[^}]*?"formatedAmount"\s*:\s*"([^"]+)"',
-            r'"minAmount"[^}]*?"formatedAmount"\s*:\s*"([^"]+)"',
-        ]:
-            candidates.extend(re.findall(pat, html))
-
-        og_price = meta("og:price:amount", "product:price:amount")
-        if og_price:
-            candidates.append(og_price)
-
-        # Raw R$ patterns as last resort
-        if not candidates:
-            candidates.extend(re.findall(r"R\$\s?\d{1,3}(?:\.\d{3})*,\d{2}", html)[:6])
-
-        # Normalise to numbers, keep first formatted string mapping
+        # Prices (best-effort; AliExpress loads final price via XHR).
         num_to_str = {}
-        for c in candidates:
+        for c in parsed["price_candidates"]:
             n = parse_price_number(c)
             if n and n > 0 and n not in num_to_str:
                 num_to_str[n] = c.strip()
-
         if num_to_str:
             nums = sorted(num_to_str.keys())
-            current_n = nums[0]
-            result["current_price"] = num_to_str[current_n]
+            result["current_price"] = num_to_str[nums[0]]
             if len(nums) > 1:
-                original_n = nums[-1]
-                result["original_price"] = num_to_str[original_n]
+                result["original_price"] = num_to_str[nums[-1]]
 
-        result["title"] = title
-        result["image"] = image
-        result["description"] = description
-        result["category"] = guess_category(f"{title} {description}")
-        result["ok"] = bool(title or image)
+        result["title"] = parsed["title"]
+        result["image"] = parsed["image"]
+        result["images"] = parsed["images"]
+        result["description"] = parsed["description"]
+        result["category"] = guess_category(f"{parsed['title']} {parsed['description']}")
+        result["ok"] = bool(parsed["title"] or parsed["image"])
     except Exception as e:  # best-effort scraping
         logger.warning(f"Scrape failed for {url}: {e}")
         result["error"] = str(e)
@@ -229,9 +313,11 @@ async def create_post(payload: PostCreate):
     orig_num = parse_price_number(payload.original_price)
     category = payload.category if payload.category in CATEGORIES else "outros"
 
+    images = payload.images if payload.images else ([payload.image] if payload.image else [])
     post = Post(
         title=payload.title.strip(),
-        image=payload.image,
+        image=payload.image or (images[0] if images else None),
+        images=images,
         group_url=payload.group_url.strip(),
         current_price=payload.current_price,
         original_price=payload.original_price,

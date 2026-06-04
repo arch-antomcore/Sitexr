@@ -15,13 +15,13 @@ function App() {
       </BrowserRouter>
       <Toaster
         position="top-center"
-        theme="dark"
+        theme="light"
         toastOptions={{
           style: {
-            background: "#111111",
-            border: "1px solid rgba(255,255,255,0.12)",
-            color: "#fafafa",
-            fontFamily: "Outfit, sans-serif",
+            background: "#ffffff",
+            border: "1px solid rgba(0,0,0,0.1)",
+            color: "#121212",
+            fontFamily: "Satoshi, sans-serif",
           },
         }}
       />

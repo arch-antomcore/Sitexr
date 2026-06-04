@@ -12,10 +12,10 @@ export const CategoryFilter = ({ active, onChange, sort, onSortChange }) => {
               key={cat.id}
               onClick={() => onChange(cat.id)}
               data-testid={`category-${cat.id}`}
-              className={`inline-flex items-center gap-2 border px-4 py-2 font-body text-sm transition-all ${
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-body text-sm transition-all ${
                 isActive
-                  ? "bg-white text-ink border-white font-semibold"
-                  : "bg-transparent text-zinc-400 border-white/15 hover:border-white/40 hover:text-white"
+                  ? "bg-ink text-white border-ink font-semibold"
+                  : "bg-white text-neutral-600 border-black/10 hover:border-ink/40 hover:text-ink"
               }`}
             >
               <Icon size={15} />
@@ -26,19 +26,19 @@ export const CategoryFilter = ({ active, onChange, sort, onSortChange }) => {
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
-        <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-400">
           Ordenar
         </span>
-        <div className="flex border border-white/15">
+        <div className="flex rounded-full border border-black/10 bg-white p-1">
           {SORTS.map((s) => (
             <button
               key={s.id}
               onClick={() => onSortChange(s.id)}
               data-testid={`sort-${s.id}`}
-              className={`px-3 py-2 font-body text-xs transition-colors ${
+              className={`px-3 py-1.5 rounded-full font-body text-xs transition-colors ${
                 sort === s.id
-                  ? "bg-cyber-cyan/15 text-cyber-cyan"
-                  : "text-zinc-400 hover:text-white"
+                  ? "bg-brand-soft text-brand font-semibold"
+                  : "text-neutral-500 hover:text-ink"
               }`}
             >
               {s.label}

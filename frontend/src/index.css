@@ -2,35 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg: #050505;
-  --surface: #111111;
-  --primary: #f5d90a;
-  --secondary: #00e5ff;
-}
-
 @layer base {
   :root {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 53 94% 50%;
-    --primary-foreground: 0 0% 2%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 63%;
-    --accent: 187 100% 50%;
-    --accent-foreground: 0 0% 2%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 187 100% 50%;
-    --radius: 0.25rem;
+    --background: 48 11% 96%;
+    --foreground: 0 0% 7%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 9 78% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 7% 92%;
+    --secondary-foreground: 0 0% 12%;
+    --muted: 40 7% 92%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 9 78% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 88%;
+    --ring: 9 78% 54%;
+    --radius: 0.5rem;
   }
 }
 
@@ -44,65 +37,48 @@ html {
 
 body {
   margin: 0;
-  background-color: #050505;
-  color: #fafafa;
-  font-family: "Outfit", system-ui, sans-serif;
+  background-color: #f7f7f5;
+  color: #121212;
+  font-family: "Satoshi", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .font-display {
-  font-family: "Unbounded", sans-serif;
+  font-family: "Cabinet Grotesk", "Satoshi", sans-serif;
 }
 .font-body {
-  font-family: "Outfit", sans-serif;
+  font-family: "Satoshi", system-ui, sans-serif;
 }
-.font-mono-data {
-  font-family: "JetBrains Mono", monospace;
+.font-mono {
+  font-family: "IBM Plex Mono", monospace;
 }
 
 ::selection {
-  background: #f5d90a;
-  color: #050505;
+  background: #e54d2e;
+  color: #ffffff;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #ebebe8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #222;
-  border: 2px solid #050505;
+  background: #c9c9c4;
+  border: 3px solid #ebebe8;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
+  background: #b0b0aa;
 }
 
-.grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
-}
-.glow-yellow {
-  box-shadow: 0 0 22px rgba(245, 217, 10, 0.3);
-}
-
-.grid-lines {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
+/* Fine dotted texture for hero / sections */
+.dot-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
 @layer base {

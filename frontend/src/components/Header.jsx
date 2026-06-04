@@ -1,43 +1,45 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Boxes, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 export const Header = ({ onAddDeal }) => {
   return (
     <header
-      className="sticky top-0 z-50 w-full backdrop-blur-xl bg-ink/80 border-b border-white/10"
       data-testid="site-header"
+      className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-b border-black/[0.08]"
     >
-      <nav className="flex items-center justify-between h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-3 group" data-testid="logo-link">
-          <span className="relative flex h-9 w-9 items-center justify-center bg-cyber-yellow text-ink">
-            <Boxes size={20} strokeWidth={2.5} />
-            <span className="absolute -right-1 -top-1 h-2 w-2 bg-cyber-cyan animate-pulse-glow" />
+      <nav className="flex items-center justify-between h-20 max-w-7xl mx-auto px-6">
+        <Link to="/" data-testid="logo-link" className="flex items-end gap-1.5">
+          <span className="font-display font-black text-2xl tracking-tighter text-ink leading-none">
+            COLECIONA
           </span>
-          <div className="leading-none">
-            <span className="font-display font-900 text-lg tracking-tighter">COLECIONA</span>
-            <span className="block font-mono text-[10px] text-cyber-cyan tracking-[0.3em] mt-0.5">
-              GRUPO · ALIEXPRESS
-            </span>
-          </div>
+          <span className="h-2 w-2 rounded-full bg-brand mb-1" />
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 font-body text-sm text-zinc-400">
-          <a href="#feed" className="hover:text-white transition-colors" data-testid="nav-deals">
+        <div className="hidden md:flex items-center gap-9">
+          <a
+            href="/#feed"
+            data-testid="nav-deals"
+            className="font-body text-sm font-medium text-neutral-700 hover:text-brand transition-colors"
+          >
             Ofertas
           </a>
-          <a href="#como-funciona" className="hover:text-white transition-colors" data-testid="nav-how">
+          <a
+            href="/#como-funciona"
+            data-testid="nav-how"
+            className="font-body text-sm font-medium text-neutral-700 hover:text-brand transition-colors"
+          >
             Como funciona
           </a>
         </div>
 
         <motion.button
-          whileTap={{ scale: 0.96 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onAddDeal}
           data-testid="header-add-deal-button"
-          className="inline-flex items-center gap-2 bg-cyber-yellow text-ink font-body font-semibold text-sm px-4 sm:px-5 py-2.5 uppercase tracking-wider hover:bg-white transition-colors"
+          className="inline-flex items-center gap-2 bg-brand text-white font-body font-semibold text-sm px-5 py-2.5 rounded-full hover:bg-brand-dark transition-colors active:scale-95"
         >
-          <Plus size={16} strokeWidth={3} />
+          <Plus size={16} strokeWidth={2.75} />
           <span className="hidden sm:inline">Divulgar grupo</span>
           <span className="sm:hidden">Postar</span>
         </motion.button>

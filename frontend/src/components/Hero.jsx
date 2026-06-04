@@ -1,112 +1,138 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Users, Zap } from "lucide-react";
+import { ArrowRight, Users, Sparkle } from "lucide-react";
 
-const TICKER = [
-  "FIGURES", "DIE-CAST 1:18", "ANIME STATUES", "HOT COLLECTIBLES",
-  "CARRINHOS 1:64", "MODEL KITS", "GUNDAM", "RETRO GAMES",
-];
+const SHOWCASE = {
+  figure:
+    "https://images.unsplash.com/photo-1606663889134-b1dedb5ed8b7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwzfHxhY3Rpb24lMjBmaWd1cmUlMjB0b3klMjBwaG90b2dyYXBoeXxlbnwwfHx8fDE3ODA1ODc3OTF8MA&ixlib=rb-4.1.0&q=85",
+  car:
+    "https://images.unsplash.com/photo-1567643858189-ea55265faa2f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHxkaWUlMjBjYXN0JTIwbW9kZWwlMjBjYXIlMjBwaG90b2dyYXBoeXxlbnwwfHx8fDE3ODA1ODc3OTF8MA&ixlib=rb-4.1.0&q=85",
+  anime:
+    "https://images.unsplash.com/photo-1614583225154-5fcdda07019e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwyfHxhbmltZSUyMHN0YXR1ZSUyMGZpZ3VyZSUyMGRpc3BsYXl8ZW58MHx8fHwxNzgwNTg3NzkxfDA&ixlib=rb-4.1.0&q=85",
+};
+
+const Case = ({ src, caption, className = "", delay = 0 }) => (
+  <motion.figure
+    initial={{ opacity: 0, y: 24 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, delay }}
+    className={`relative bg-white border border-black/[0.08] rounded-xl overflow-hidden shadow-sm group ${className}`}
+  >
+    <img
+      src={src}
+      alt={caption}
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+    <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/55 to-transparent p-3">
+      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white">
+        {caption}
+      </span>
+    </figcaption>
+  </motion.figure>
+);
 
 export const Hero = ({ stats, onAddDeal }) => {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 grid-lines">
-      <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-cyber-cyan/10 blur-[120px]" />
-      <div className="absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-cyber-yellow/10 blur-[120px]" />
+    <section className="relative overflow-hidden">
+      <div className="absolute inset-0 dot-grid opacity-60" />
+      <div className="relative max-w-7xl mx-auto px-6 pt-14 pb-16 md:pt-20 md:pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left */}
+          <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 mb-7"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-neutral-500">
+                Compra em grupo · AliExpress · 3+ pessoas
+              </span>
+            </motion.div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-24 md:pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 border border-white/15 bg-white/[0.03] px-3 py-1.5 mb-8"
-        >
-          <Zap size={13} className="text-cyber-cyan" />
-          <span className="font-mono text-[11px] tracking-[0.25em] text-zinc-300">
-            COMPRA EM GRUPO · A PARTIR DE 3 PESSOAS
-          </span>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
-          <div className="md:col-span-8">
             <motion.h1
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className="font-display font-900 tracking-tighter text-4xl sm:text-5xl lg:text-7xl leading-[0.95]"
+              className="font-display font-black text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-tighter text-ink"
             >
-              Junte a galera.
+              Peças de coleção
               <br />
-              <span className="text-cyber-yellow">Colecione</span> pagando
-              <br />
-              <span className="relative inline-block">
-                muito menos.
-                <span className="absolute left-0 -bottom-2 h-1.5 w-full bg-cyber-cyan/70" />
-              </span>
+              no <span className="text-brand">preço de grupo</span>.
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-zinc-400 text-base md:text-lg max-w-xl mt-8 leading-relaxed"
+              className="font-body text-neutral-600 text-base md:text-lg max-w-xl mt-7 leading-relaxed"
             >
-              A central de <span className="text-white">compra em grupo do AliExpress</span> só
-              para colecionadores. Figures, estátuas, miniaturas e die-cast — cole o link do seu
-              grupo e desbloqueie o preço de grupo com a comunidade.
+              A vitrine de <span className="text-ink font-medium">compra em grupo</span> só para
+              colecionadores. Figures, estátuas de anime, miniaturas e die-cast — cole o link do
+              seu grupo e desbloqueie o desconto com a comunidade.
             </motion.p>
-          </div>
 
-          <div className="md:col-span-4 flex md:justify-end">
-            <div className="flex gap-px bg-white/10 border border-white/10">
-              <div className="bg-ink px-6 py-5 text-center">
-                <div className="font-mono-data text-3xl font-bold text-cyber-yellow">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap items-center gap-3 mt-9"
+            >
+              <button
+                onClick={onAddDeal}
+                data-testid="hero-add-deal-button"
+                className="inline-flex items-center gap-2 bg-brand text-white font-body font-semibold py-3.5 px-7 rounded-full hover:bg-brand-dark transition-all active:scale-95"
+              >
+                Divulgar meu grupo <ArrowRight size={17} />
+              </button>
+              <a
+                href="#feed"
+                className="inline-flex items-center gap-2 border border-black/15 text-ink font-body font-medium py-3.5 px-6 rounded-full hover:border-ink hover:bg-white transition-colors"
+              >
+                Ver acervo
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex items-center gap-8 mt-12"
+            >
+              <div>
+                <div className="font-display font-black text-3xl text-ink">
                   {stats?.groups ?? "—"}
                 </div>
-                <div className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 mt-1">
-                  GRUPOS
+                <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500 mt-1">
+                  grupos ativos
                 </div>
               </div>
-              <div className="bg-ink px-6 py-5 text-center">
-                <div className="font-mono-data text-3xl font-bold text-cyber-cyan flex items-center gap-1 justify-center">
-                  <Users size={22} /> 3+
+              <div className="h-10 w-px bg-black/10" />
+              <div>
+                <div className="font-display font-black text-3xl text-ink flex items-center gap-2">
+                  <Users size={24} className="text-brand" /> 3+
                 </div>
-                <div className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 mt-1">
-                  P/ DESCONTO
+                <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500 mt-1">
+                  p/ liberar desconto
                 </div>
               </div>
+            </motion.div>
+          </div>
+
+          {/* Right — bento showcase */}
+          <div className="lg:col-span-5">
+            <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[360px] md:h-[460px]">
+              <Case src={SHOWCASE.figure} caption="Figure · Anime" className="row-span-2" delay={0.15} />
+              <Case src={SHOWCASE.car} caption="Die-cast · 1:18" delay={0.25} />
+              <Case src={SHOWCASE.anime} caption="Estátua · Colecionável" delay={0.35} />
+            </div>
+            <div className="hidden md:flex items-center gap-2 justify-end mt-4 text-neutral-400">
+              <Sparkle size={13} className="text-brand" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
+                acervo curado da comunidade
+              </span>
             </div>
           </div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap items-center gap-4 mt-12"
-        >
-          <button
-            onClick={onAddDeal}
-            data-testid="hero-add-deal-button"
-            className="bg-cyber-yellow text-ink font-body font-bold py-4 px-8 uppercase tracking-widest text-sm hover:bg-white transition-colors"
-          >
-            Divulgar meu grupo
-          </button>
-          <a
-            href="#feed"
-            className="inline-flex items-center gap-2 border border-white/20 text-white font-body py-4 px-6 text-sm hover:border-cyber-cyan hover:text-cyber-cyan transition-colors"
-          >
-            Ver ofertas <ArrowDown size={16} />
-          </a>
-        </motion.div>
-      </div>
-
-      {/* Marquee ticker */}
-      <div className="relative border-t border-white/10 bg-cyber-yellow text-ink overflow-hidden">
-        <div className="flex whitespace-nowrap animate-marquee py-2.5">
-          {[...TICKER, ...TICKER].map((t, i) => (
-            <span key={i} className="font-mono text-xs font-bold tracking-[0.3em] mx-6 flex items-center">
-              {t} <span className="ml-12 opacity-40">/</span>
-            </span>
-          ))}
         </div>
       </div>
     </section>

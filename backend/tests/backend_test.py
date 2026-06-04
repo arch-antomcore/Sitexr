@@ -116,6 +116,21 @@ def test_scrape_invalid_url(s):
     assert r.status_code == 400
 
 
+def test_scrape_aliexpress_returns_image_and_title(s):
+    """MOST IMPORTANT: AliExpress scrape must return ok=true with non-null image+title and product_id."""
+    url = "https://pt.aliexpress.com/item/1005006274052609.html"
+    r = s.post(f"{API}/scrape", json={"url": url}, timeout=60)
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data.get("ok") is True, f"ok must be true, got {data}"
+    assert data.get("image"), f"image must be non-null, got {data}"
+    assert "alicdn" in (data.get("image") or "").lower(), f"image should be alicdn URL, got {data.get('image')}"
+    assert data.get("title"), "title must be non-null"
+    assert isinstance(data.get("images"), list) and len(data["images"]) >= 1
+    # AliExpress may redirect to US gateway and reassign product_id; just require a numeric id was resolved.
+    assert data.get("product_id") and str(data["product_id"]).isdigit(), f"product_id missing: {data.get('product_id')}"
+
+
 # ---------- Create post + discount computation ----------
 def test_create_post_computes_discount_and_persists(s):
     payload = {

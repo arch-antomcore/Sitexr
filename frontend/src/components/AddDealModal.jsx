@@ -9,6 +9,7 @@ import { POST_CATEGORIES } from "@/lib/categories";
 const empty = {
   title: "",
   image: "",
+  images: [],
   group_url: "",
   current_price: "",
   original_price: "",
@@ -46,16 +47,19 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
         ...f,
         title: data.title || f.title,
         image: data.image || f.image,
+        images: data.images || f.images,
         current_price: data.current_price || f.current_price,
         original_price: data.original_price || f.original_price,
         category: data.category || f.category,
         description: data.description || f.description,
       }));
       setFetched(true);
-      if (data.title || data.image) {
-        toast.success("Dados encontrados! Revise e publique.");
+      if (data.image) {
+        toast.success("Imagem e dados encontrados! Confira o preço e publique.");
+      } else if (data.title) {
+        toast.success("Título encontrado. Adicione a imagem e o preço.");
       } else {
-        toast.warning("Não consegui ler tudo. Preencha manualmente abaixo.");
+        toast.warning("Não consegui ler o link. Preencha manualmente abaixo.");
       }
     } catch (e) {
       toast.error("Falha ao ler o link. Preencha os campos manualmente.");
@@ -71,7 +75,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
     setPublishing(true);
     try {
       const post = await createPost(form);
-      toast.success("Grupo publicado com sucesso! 🎉");
+      toast.success("Grupo publicado com sucesso!");
       onCreated?.(post);
       handleClose(false);
     } catch (e) {
@@ -82,33 +86,36 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
   };
 
   const inputCls =
-    "w-full bg-black/50 border border-white/15 focus:border-cyber-cyan focus:outline-none text-white p-3.5 font-body text-sm transition-colors placeholder:text-zinc-600";
+    "w-full bg-white border border-black/10 rounded-lg focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none text-ink p-3.5 font-body text-sm transition-all placeholder:text-neutral-400";
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent
-        className="max-w-2xl p-0 gap-0 bg-surface border border-white/15 max-h-[92vh] overflow-y-auto [&>button]:hidden"
+        className="max-w-2xl p-0 gap-0 bg-white border border-black/10 rounded-xl shadow-2xl max-h-[92vh] overflow-y-auto [&>button]:hidden"
         data-testid="add-deal-modal"
       >
         <DialogTitle className="sr-only">Divulgar grupo</DialogTitle>
         <DialogDescription className="sr-only">
           Cole o link do grupo do AliExpress para criar um post automaticamente.
         </DialogDescription>
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 sticky top-0 bg-surface z-10">
+
+        <div className="flex items-center justify-between border-b border-neutral-100 px-6 py-5 sticky top-0 bg-white z-10">
           <div className="flex items-center gap-3">
-            <span className="flex h-8 w-8 items-center justify-center bg-cyber-yellow text-ink">
-              <Sparkles size={16} />
+            <span className="flex h-9 w-9 items-center justify-center bg-brand-soft text-brand rounded-lg">
+              <Sparkles size={17} />
             </span>
             <div>
-              <h2 className="font-display font-700 text-base tracking-tight">Divulgar grupo</h2>
-              <p className="font-mono text-[10px] text-zinc-500 tracking-wider">
-                COLE O LINK · NÓS MONTAMOS O POST
+              <h2 className="font-display font-bold text-lg tracking-tight text-ink leading-none">
+                Divulgar grupo
+              </h2>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-400 mt-1.5">
+                cole o link · nós montamos o post
               </p>
             </div>
           </div>
           <button
             onClick={() => handleClose(false)}
-            className="text-zinc-500 hover:text-white transition-colors"
+            className="text-neutral-400 hover:text-ink transition-colors"
             data-testid="close-modal-button"
           >
             <X size={20} />
@@ -116,9 +123,8 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
         </div>
 
         <div className="px-6 py-6 space-y-5">
-          {/* Link input + scrape */}
           <div className="space-y-2">
-            <label className="font-mono text-[11px] text-zinc-400 tracking-wider uppercase flex items-center gap-2">
+            <label className="font-mono text-[11px] uppercase tracking-wider text-neutral-500 flex items-center gap-2">
               <Link2 size={13} /> Link do grupo (AliExpress)
             </label>
             <div className="flex flex-col sm:flex-row gap-2">
@@ -127,13 +133,13 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                 onChange={(e) => set("group_url", e.target.value)}
                 placeholder="https://s.click.aliexpress.com/..."
                 data-testid="group-url-input"
-                className={inputCls + " font-mono-data text-xs"}
+                className={inputCls + " font-mono text-xs"}
               />
               <button
                 onClick={handleScrape}
                 disabled={scraping}
                 data-testid="scrape-button"
-                className="inline-flex items-center justify-center gap-2 bg-cyber-cyan text-ink font-body font-semibold px-5 py-3.5 text-sm hover:bg-white transition-colors disabled:opacity-60 shrink-0"
+                className="inline-flex items-center justify-center gap-2 bg-ink text-white font-body font-semibold px-5 py-3.5 rounded-lg hover:bg-black transition-colors disabled:opacity-60 shrink-0"
               >
                 {scraping ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
                 {scraping ? "Lendo..." : "Buscar"}
@@ -150,16 +156,16 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                 className="space-y-5 overflow-hidden"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-4">
-                  <div className="aspect-square bg-black/60 border border-white/10 overflow-hidden flex items-center justify-center">
+                  <div className="aspect-square bg-neutral-100 border border-black/[0.06] rounded-lg overflow-hidden flex items-center justify-center">
                     {form.image ? (
                       <img src={form.image} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <ImageOff size={28} className="text-zinc-700" />
+                      <ImageOff size={28} className="text-neutral-300" />
                     )}
                   </div>
                   <div className="space-y-3">
                     <div className="space-y-1.5">
-                      <label className="font-mono text-[10px] text-zinc-500 tracking-wider uppercase">
+                      <label className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
                         Nome do produto
                       </label>
                       <input
@@ -171,7 +177,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="font-mono text-[10px] text-zinc-500 tracking-wider uppercase">
+                      <label className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
                         URL da imagem
                       </label>
                       <input
@@ -179,7 +185,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                         onChange={(e) => set("image", e.target.value)}
                         placeholder="https://...jpg"
                         data-testid="image-input"
-                        className={inputCls + " font-mono-data text-xs"}
+                        className={inputCls + " font-mono text-xs"}
                       />
                     </div>
                   </div>
@@ -187,7 +193,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="font-mono text-[10px] text-cyber-yellow tracking-wider uppercase">
+                    <label className="font-mono text-[10px] uppercase tracking-wider text-brand">
                       Preço no grupo
                     </label>
                     <input
@@ -195,11 +201,11 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                       onChange={(e) => set("current_price", e.target.value)}
                       placeholder="R$89,90"
                       data-testid="current-price-input"
-                      className={inputCls + " font-mono-data"}
+                      className={inputCls + " font-display font-bold"}
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="font-mono text-[10px] text-zinc-500 tracking-wider uppercase">
+                    <label className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
                       Preço sem grupo
                     </label>
                     <input
@@ -207,13 +213,13 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                       onChange={(e) => set("original_price", e.target.value)}
                       placeholder="R$349,00"
                       data-testid="original-price-input"
-                      className={inputCls + " font-mono-data"}
+                      className={inputCls + " font-display"}
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="font-mono text-[10px] text-zinc-500 tracking-wider uppercase">
+                  <label className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
                     Categoria
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -224,10 +230,10 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                           key={c.id}
                           onClick={() => set("category", c.id)}
                           data-testid={`select-category-${c.id}`}
-                          className={`inline-flex items-center gap-1.5 border px-3 py-2 text-xs font-body transition-colors ${
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-2 text-xs font-body transition-colors ${
                             form.category === c.id
-                              ? "bg-white text-ink border-white font-semibold"
-                              : "border-white/15 text-zinc-400 hover:text-white"
+                              ? "bg-ink text-white border-ink font-semibold"
+                              : "border-black/10 text-neutral-600 hover:text-ink"
                           }`}
                         >
                           <Icon size={13} /> {c.label}
@@ -238,7 +244,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="font-mono text-[10px] text-zinc-500 tracking-wider uppercase">
+                  <label className="font-mono text-[10px] uppercase tracking-wider text-neutral-500">
                     Descrição (opcional)
                   </label>
                   <textarea
@@ -255,7 +261,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
                   onClick={handlePublish}
                   disabled={publishing}
                   data-testid="publish-button"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-cyber-yellow text-ink font-body font-bold py-4 uppercase tracking-widest text-sm hover:bg-white transition-colors disabled:opacity-60"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-brand text-white font-body font-bold py-4 rounded-lg hover:bg-brand-dark transition-colors disabled:opacity-60 active:scale-[0.99]"
                 >
                   {publishing && <Loader2 size={16} className="animate-spin" />}
                   Publicar grupo
@@ -265,9 +271,9 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
           </AnimatePresence>
 
           {!fetched && (
-            <p className="font-body text-xs text-zinc-500 leading-relaxed">
-              Cole o link de compra em grupo do AliExpress e clique em <b>Buscar</b>. Tentamos
-              extrair imagem, nome e preço automaticamente — você pode editar tudo antes de publicar.
+            <p className="font-body text-sm text-neutral-500 leading-relaxed">
+              Cole o link de compra em grupo do AliExpress e clique em <b className="text-ink">Buscar</b>.
+              Buscamos a imagem e o nome automaticamente — você confere o preço e publica.
             </p>
           )}
         </div>
