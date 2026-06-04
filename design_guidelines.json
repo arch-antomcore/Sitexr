@@ -1,0 +1,95 @@
+{
+  "theme": "Dark",
+  "archetype": "Archetype 5 (Luxury) + Archetype 7 (Electric/Neon Accents)",
+  "vibe": "Elite Collector Display Case. Moody, premium, high-contrast, with neon accents to highlight deals.",
+  "typography": {
+    "headings": {
+      "family": "Unbounded",
+      "weights": ["400", "700", "900"],
+      "classes": "font-sans tracking-tighter"
+    },
+    "body": {
+      "family": "Outfit",
+      "weights": ["300", "400", "500"],
+      "classes": "font-sans leading-relaxed"
+    },
+    "data_and_prices": {
+      "family": "JetBrains Mono",
+      "weights": ["400", "700"],
+      "classes": "font-mono tracking-tight"
+    }
+  },
+  "color_system": {
+    "background": "#050505",
+    "surface": "#111111",
+    "surface_glass": "rgba(17, 17, 17, 0.7)",
+    "border": "rgba(255, 255, 255, 0.08)",
+    "border_hover": "rgba(0, 229, 255, 0.4)",
+    "primary_accent": "#F5D90A",
+    "secondary_accent": "#00E5FF",
+    "text": {
+      "primary": "#FAFAFA",
+      "secondary": "#A1A1AA",
+      "muted": "#71717A",
+      "inverse": "#050505"
+    }
+  },
+  "layout_and_spacing": {
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "feed_grid": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8",
+    "hero_grid": "grid grid-cols-1 md:grid-cols-12 gap-6",
+    "spacing_scale": "Use generous padding: p-6 or p-8 inside cards to let images and data breathe.",
+    "borders": "1px solid border, rounded-none or max rounded-sm for a sharp, tactical look."
+  },
+  "components": {
+    "deal_card": {
+      "wrapper": "relative group overflow-hidden bg-[#111111] border border-white/10 transition-colors duration-300 hover:border-[#00E5FF]/40",
+      "image_container": "relative aspect-[4/5] overflow-hidden bg-black/50",
+      "image": "w-full h-full object-cover transition-transform duration-500 group-hover:scale-110",
+      "content": "p-5 flex flex-col gap-3",
+      "price_row": "flex items-baseline justify-between mt-auto",
+      "current_price": "text-[#F5D90A] font-mono text-2xl font-bold",
+      "original_price": "text-[#71717A] font-mono text-sm line-through",
+      "discount_badge": "absolute top-4 right-4 bg-[#00E5FF] text-[#050505] font-mono font-bold px-3 py-1 text-sm shadow-[0_0_15px_rgba(0,229,255,0.4)] z-10",
+      "link_overlay": "absolute inset-0 z-20 cursor-pointer"
+    },
+    "header": {
+      "wrapper": "sticky top-0 z-50 w-full backdrop-blur-xl bg-[#050505]/80 border-b border-white/10",
+      "nav": "flex items-center justify-between h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    },
+    "add_deal_form": {
+      "input": "w-full bg-black/50 border border-white/20 focus:border-[#00E5FF] focus:ring-1 focus:ring-[#00E5FF] text-white p-4 font-mono transition-all",
+      "button": "bg-[#F5D90A] text-[#050505] font-bold py-4 px-8 hover:bg-white transition-colors uppercase tracking-widest"
+    }
+  },
+  "motion": {
+    "feed_stagger": "Framer Motion: Initial opacity 0, y 20, staggerChildren 0.1s for feed entry.",
+    "hover_effects": "Subtle scale on images (scale-110), glow/shadow shift on borders.",
+    "page_transitions": "Smooth opacity fade in."
+  },
+  "media": {
+    "background_texture": [
+      "https://images.pexels.com/photos/12602054/pexels-photo-12602054.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    ],
+    "action_figures": [
+      "https://images.unsplash.com/photo-1762008387452-25fe91ab3f90?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwzfHxhY3Rpb24lMjBmaWd1cmUlMjBjb2xsZWN0aWJsZSUyMGRhcmt8ZW58MHx8fHwxNzgwNTc2NzI3fDA&ixlib=rb-4.1.0&q=85",
+      "https://images.pexels.com/photos/37737303/pexels-photo-37737303.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "https://images.pexels.com/photos/37737302/pexels-photo-37737302.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    ],
+    "diecast_cars": [
+      "https://images.unsplash.com/photo-1645400379459-f6fd3d963fd4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwyfHxkaWVjYXN0JTIwbW9kZWwlMjBjYXIlMjBkYXJrfGVufDB8fHx8MTc4MDU3NjcyN3ww&ixlib=rb-4.1.0&q=85",
+      "https://images.pexels.com/photos/1863235/pexels-photo-1863235.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "https://images.unsplash.com/photo-1668263019414-e71dbcd2dc80?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHw0fHxkaWVjYXN0JTIwbW9kZWwlMjBjYXIlMjBkYXJrfGVufDB8fHx8MTc4MDU3NjcyN3ww&ixlib=rb-4.1.0&q=85"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "DO NOT use Inter or Roboto fonts anywhere. Implement Unbounded, Outfit, and JetBrains Mono.",
+    "Always apply 'data-testid' to interactive elements (e.g., data-testid='post-link-card', data-testid='add-deal-button').",
+    "Maintain the Luxury/Cyberpunk blend: dark UI, crisp 1px borders, neon accents, and no muddy gradients.",
+    "Use framer-motion for staggering the feed entries and hover interactions.",
+    "Ensure all E1 guidelines for layout (asymmetry, wide gaps, generous padding) are followed.",
+    "Create a succinct product card that clearly displays the discount badge, current price (highlighted), and original price (muted, strikethrough).",
+    "The empty state and add-deal form should feel premium and integrated, not just a standard Shadcn modal.",
+    "Use Phosphor icons or Lucide for UI iconography, ensuring sharp, consistent weights."
+  ]
+}
