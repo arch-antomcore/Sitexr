@@ -1,0 +1,35 @@
+{
+  "summary": "Full backend + frontend testing of Coleciona group-buy app. All 19 backend pytest cases passed (100%). End-to-end Playwright run validated: home feed (10 cards, includes user-published), category filter, sort buttons, search input, empty state, deal-card navigation, detail page rendering, like increment, join-group new tab + counter via POST /api/posts/{id}/join, add-deal modal scrape (best-effort on example.com), publish flow with discount auto-compute, and stats refresh (groups counter went from 6 to 11 after seed + test inserts). Toast 'Grupo publicado com sucesso' confirmed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "AddDealModal (and possibly other Radix Dialogs)", "issues": ["Console a11y warnings: 'DialogContent requires a DialogTitle' and 'Missing Description or aria-describedby'. Functional but should be wrapped with VisuallyHidden DialogTitle/Description for accessibility."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Optional a11y polish: add VisuallyHidden DialogTitle and DialogDescription inside AddDealModal DialogContent to remove Radix accessibility console warnings.",
+    "Consider adding an explicit empty-state when /api/scrape returns no fields so users know to fill manually (currently a toast.warning fires, which is fine but could also be visually surfaced)."
+  ],
+  "critical_code_review_comments": [
+    "MongoDB ObjectId correctly excluded via projection {'_id':0} on all list/get/find_one_and_update calls — good.",
+    "Seed is idempotent (only inserts when count == 0); won't duplicate on hot reload.",
+    "POST /api/posts validates URL prefix and discount math is correct (verified 75% for 100 vs 400). current_price/original_price stored both as formatted strings and numeric fields for sorting — clean.",
+    "Scrape endpoint correctly returns HTTP 200 with nullable fields for unscrapeable URLs (e.g. example.com) — matches problem-statement expectation.",
+    "Frontend uses process.env.REACT_APP_BACKEND_URL with /api prefix throughout — no hardcoding.",
+    "No auth required by spec; all CRUD-ish endpoints are open. This is intentional but worth noting (anyone can spam joins/likes/posts)."
+  ],
+  "updated_files": ["/app/backend/tests/backend_test.py"],
+  "success_rate": {"backend": "100% (19/19)", "frontend": "100% of tested flows"},
+  "test_credentials": "N/A - no auth in this app",
+  "seed_data_creation": "Backend auto-seeds 6 posts on startup if empty. Tests added several TEST_-prefixed posts (visible in feed); main agent may optionally clean them. New post 'TEST_UI Figure Premium' was published via UI and appears in feed.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend test file at /app/backend/tests/backend_test.py covers all endpoints (root, stats, list with filter/sort/q, get-by-id, scrape valid/invalid, create+discount, join/like increments, 404 cases). Run with: pytest /app/backend/tests/backend_test.py -v. Frontend data-testids used: deal-card, category-<id>, sort-<id>, search-input, empty-state, header-add-deal-button, add-deal-modal, group-url-input, scrape-button, title-input, image-input, current-price-input, original-price-input, select-category-<id>, description-input, publish-button, close-modal-button, join-group-button, like-button, back-button."
+}
