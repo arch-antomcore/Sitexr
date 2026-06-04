@@ -5,21 +5,21 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Cabinet Grotesk"', "sans-serif"],
-        body: ['"Satoshi"', "system-ui", "sans-serif"],
+        display: ['"Press Start 2P"', "monospace"],
+        body: ['"IBM Plex Mono"', "monospace"],
         mono: ['"IBM Plex Mono"', "monospace"],
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "0px",
+        md: "0px",
+        sm: "0px",
       },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        ink: "#121212",
-        paper: { DEFAULT: "#F7F7F5", white: "#FFFFFF", tint: "#EBEBE8" },
-        brand: { DEFAULT: "#E54D2E", dark: "#C93C20", soft: "#FCECE9" },
+        ink: "#ffffff",
+        paper: { DEFAULT: "#0d0e12", white: "#181822", tint: "#252535" },
+        brand: { DEFAULT: "#ff4d4d", dark: "#d83a3a", soft: "#2b1111" },
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

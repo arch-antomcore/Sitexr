@@ -15,15 +15,15 @@ const Case = ({ src, caption, className = "", delay = 0 }) => (
     initial={{ opacity: 0, y: 24 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, delay }}
-    className={`relative bg-white border border-black/[0.08] rounded-xl overflow-hidden shadow-sm group ${className}`}
+    className={`relative bg-[#181822] border-4 border-black shadow-[4px_4px_0px_#000000] overflow-hidden group ${className}`}
   >
     <img
       src={src}
       alt={caption}
-      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pixelated"
     />
-    <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/55 to-transparent p-3">
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white">
+    <figcaption className="absolute bottom-0 left-0 right-0 bg-black/70 p-3 border-t-2 border-black">
+      <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-white">
         {caption}
       </span>
     </figcaption>
@@ -32,8 +32,8 @@ const Case = ({ src, caption, className = "", delay = 0 }) => (
 
 export const Hero = ({ stats, onAddDeal }) => {
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 dot-grid opacity-60" />
+    <section className="relative overflow-hidden bg-[#0d0e12] py-8 border-b-4 border-black">
+      <div className="absolute inset-0 dot-grid opacity-30" />
       <div className="relative max-w-7xl mx-auto px-6 pt-14 pb-16 md:pt-20 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left */}
@@ -42,11 +42,11 @@ export const Hero = ({ stats, onAddDeal }) => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 mb-7"
+              className="inline-flex items-center gap-2 mb-6"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-neutral-500">
-                Compra em grupo · AliExpress · 3+ pessoas
+              <span className="h-2.5 w-2.5 bg-brand" />
+              <span className="font-mono text-[10px] uppercase tracking-wider text-brand font-bold">
+                COMPRA EM GRUPO · AliExpress · 3+ PESSOAS
               </span>
             </motion.div>
 
@@ -54,10 +54,9 @@ export const Hero = ({ stats, onAddDeal }) => {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className="font-display font-black text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-tighter text-ink"
+              className="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl text-white leading-tight uppercase"
             >
-              Peças de coleção
-              <br />
+              Peças de coleção<br />
               no <span className="text-brand">preço de grupo</span>.
             </motion.h1>
 
@@ -65,9 +64,9 @@ export const Hero = ({ stats, onAddDeal }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-neutral-600 text-base md:text-lg max-w-xl mt-7 leading-relaxed"
+              className="font-body text-neutral-400 text-xs sm:text-sm max-w-xl mt-6 leading-relaxed"
             >
-              A vitrine de <span className="text-ink font-medium">compra em grupo</span> só para
+              A vitrine de <span className="text-white font-bold">compra em grupo</span> para
               colecionadores. Figures, estátuas de anime, miniaturas e die-cast — cole o link do
               seu grupo e desbloqueie o desconto com a comunidade.
             </motion.p>
@@ -76,44 +75,46 @@ export const Hero = ({ stats, onAddDeal }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-3 mt-9"
+              className="flex flex-wrap items-center gap-4 mt-8"
             >
               <button
                 onClick={onAddDeal}
                 data-testid="hero-add-deal-button"
-                className="inline-flex items-center gap-2 bg-brand text-white font-body font-semibold py-3.5 px-7 rounded-full hover:bg-brand-dark transition-all active:scale-95"
+                className="pixel-btn"
               >
-                Divulgar meu grupo <ArrowRight size={17} />
+                DIVULGAR GRUPO <ArrowRight size={14} />
               </button>
               <a
                 href="#feed"
-                className="inline-flex items-center gap-2 border border-black/15 text-ink font-body font-medium py-3.5 px-6 rounded-full hover:border-ink hover:bg-white transition-colors"
+                className="pixel-btn"
+                style={{ "--pixel-btn-bg": "#252535", "--pixel-btn-text": "#ffffff" }}
               >
-                Ver acervo
+                VER ACERVO
               </a>
             </motion.div>
 
+            {/* Retro HUD Stats Panel */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex items-center gap-8 mt-12"
+              className="mt-12 inline-flex items-center gap-6 bg-[#181822] border-4 border-black p-5 shadow-[4px_4px_0px_#000000]"
             >
               <div>
-                <div className="font-display font-black text-3xl text-ink">
-                  {stats?.groups ?? "—"}
+                <div className="font-display text-base text-[#00ff66]">
+                  {stats?.groups ?? "00"}
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500 mt-1">
+                <div className="font-mono text-[9px] uppercase tracking-wider text-neutral-400 mt-1">
                   grupos ativos
                 </div>
               </div>
-              <div className="h-10 w-px bg-black/10" />
+              <div className="h-8 w-1 bg-black" />
               <div>
-                <div className="font-display font-black text-3xl text-ink flex items-center gap-2">
-                  <People size={24} className="text-brand" /> 3+
+                <div className="font-display text-base text-brand flex items-center gap-1.5">
+                  <People size={14} /> 3+
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-neutral-500 mt-1">
-                  p/ liberar desconto
+                <div className="font-mono text-[9px] uppercase tracking-wider text-neutral-400 mt-1">
+                  p/ liberar desc.
                 </div>
               </div>
             </motion.div>
@@ -126,9 +127,9 @@ export const Hero = ({ stats, onAddDeal }) => {
               <Case src={SHOWCASE.car} caption="Die-cast · 1:18" delay={0.25} />
               <Case src={SHOWCASE.anime} caption="Estátua · Colecionável" delay={0.35} />
             </div>
-            <div className="hidden md:flex items-center gap-2 justify-end mt-4 text-neutral-400">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
-                acervo curado da comunidade
+            <div className="hidden md:flex items-center gap-2 justify-end mt-4 text-neutral-500">
+              <span className="font-mono text-[9px] uppercase tracking-widest">
+                [ acervo curado da comunidade ]
               </span>
             </div>
           </div>

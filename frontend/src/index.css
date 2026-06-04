@@ -1,84 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 48 11% 96%;
-    --foreground: 0 0% 7%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
-    --primary: 9 78% 54%;
+    --background: 240 18% 7%;      /* #0d0e12 */
+    --foreground: 0 0% 100%;       /* #ffffff */
+    --card: 240 16% 12%;           /* #181822 */
+    --card-foreground: 0 0% 100%;  /* #ffffff */
+    --popover: 240 16% 12%;        /* #181822 */
+    --popover-foreground: 0 0% 100%; /* #ffffff */
+    --primary: 9 100% 64%;         /* #ff4d4d */
     --primary-foreground: 0 0% 100%;
-    --secondary: 40 7% 92%;
-    --secondary-foreground: 0 0% 12%;
-    --muted: 40 7% 92%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 9 78% 54%;
+    --secondary: 240 10% 20%;      /* #252535 */
+    --secondary-foreground: 0 0% 90%;
+    --muted: 240 10% 16%;
+    --muted-foreground: 240 6% 65%;
+    --accent: 9 100% 64%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 90%;
-    --input: 0 0% 88%;
-    --ring: 9 78% 54%;
-    --radius: 0.5rem;
+    --border: 240 12% 20%;         /* #252535 */
+    --input: 240 12% 20%;
+    --ring: 9 100% 64%;
+    --radius: 0rem;
   }
 }
 
 * {
-  border-color: hsl(var(--border));
+  border-color: #000000; /* Force retro-style crisp black borders between layout blocks */
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: #0d0e12;
 }
 
 body {
   margin: 0;
-  background-color: #f7f7f5;
-  color: #121212;
-  font-family: "Satoshi", system-ui, sans-serif;
+  background-color: #0d0e12;
+  color: #ffffff;
+  font-family: "IBM Plex Mono", monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .font-display {
-  font-family: "Cabinet Grotesk", "Satoshi", sans-serif;
+  font-family: "Press Start 2P", monospace;
+  line-height: 1.5;
 }
 .font-body {
-  font-family: "Satoshi", system-ui, sans-serif;
+  font-family: "IBM Plex Mono", monospace;
 }
 .font-mono {
   font-family: "IBM Plex Mono", monospace;
 }
 
 ::selection {
-  background: #e54d2e;
+  background: #ff4d4d;
   color: #ffffff;
 }
 
+/* Retro Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: #ebebe8;
+  background: #181822;
+  border-left: 3px solid #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c9c9c4;
-  border: 3px solid #ebebe8;
-  border-radius: 999px;
+  background: #ff4d4d;
+  border: 3px solid #000000;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b0b0aa;
+  background: #d83a3a;
 }
 
-/* Fine dotted texture for hero / sections */
+/* Stepped Pixel Corners */
+.pixel-corners {
+  position: relative;
+  border-top: 4px solid var(--pixel-border, #000000);
+  border-bottom: 4px solid var(--pixel-border, #000000);
+  border-radius: 0px !important;
+}
+.pixel-corners::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+  border-left: 4px solid var(--pixel-border, #000000);
+  border-right: 4px solid var(--pixel-border, #000000);
+  pointer-events: none;
+  border-radius: 0px !important;
+}
+
+/* Stepped Pixel Button */
+.pixel-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  background-color: var(--pixel-btn-bg, #ff4d4d);
+  color: var(--pixel-btn-text, #ffffff);
+  border-top: 4px solid #000000;
+  border-bottom: 4px solid #000000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
+  cursor: pointer;
+}
+.pixel-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+  border-left: 4px solid #000000;
+  border-right: 4px solid #000000;
+  pointer-events: none;
+}
+.pixel-btn:active {
+  transform: translateY(2px);
+}
+.pixel-btn:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Retro Pixel Card */
+.pixel-card {
+  position: relative;
+  background-color: #181822;
+  border-top: 4px solid #000000;
+  border-bottom: 4px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pixel-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+  border-left: 4px solid #000000;
+  border-right: 4px solid #000000;
+  pointer-events: none;
+}
+.pixel-card-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+/* Retro CRT Scanlines Effect */
+.crt-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.crt-scanlines::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Dotted arcade grid */
 .dot-grid {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 @layer base {
