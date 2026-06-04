@@ -1,95 +1,149 @@
 {
-  "theme": "Dark",
-  "archetype": "Archetype 5 (Luxury) + Archetype 7 (Electric/Neon Accents)",
-  "vibe": "Elite Collector Display Case. Moody, premium, high-contrast, with neon accents to highlight deals.",
+  "project": "COLECIONA - Collectibles Group Buy",
+  "theme": {
+    "archetype": "4 (Swiss & High-Contrast) + 5 (Luxury/Tactile)",
+    "mode": "light",
+    "rationale": "Moving away from the generic 'AI-slop' dark cyberpunk theme towards an 'Editorial Art Gallery / Museum Display Case' identity. Collectibles are treated as premium art pieces. High contrast, vast negative space, intentional asymmetry, and tactile borders (21st.dev style). This makes the colorful products pop against a pristine architectural background."
+  },
   "typography": {
     "headings": {
-      "family": "Unbounded",
-      "weights": ["400", "700", "900"],
-      "classes": "font-sans tracking-tighter"
+      "family": "Cabinet Grotesk, sans-serif",
+      "weights": ["400", "800", "900"],
+      "tracking": "tracking-tight to tracking-tighter",
+      "usage": "Massive, architectural presence for hero text and section titles. Never center by default."
     },
     "body": {
-      "family": "Outfit",
-      "weights": ["300", "400", "500"],
-      "classes": "font-sans leading-relaxed"
+      "family": "Satoshi, sans-serif",
+      "weights": ["400", "500"],
+      "usage": "Clean, highly legible text for descriptions, UI elements, and data."
     },
-    "data_and_prices": {
-      "family": "JetBrains Mono",
-      "weights": ["400", "700"],
-      "classes": "font-mono tracking-tight"
+    "mono_accents": {
+      "family": "IBM Plex Mono, monospace",
+      "usage": "Tiny utility labels (e.g., ADVERTISEMENT, timestamps, stats) with uppercase and tracking-widest."
     }
   },
   "color_system": {
-    "background": "#050505",
-    "surface": "#111111",
-    "surface_glass": "rgba(17, 17, 17, 0.7)",
-    "border": "rgba(255, 255, 255, 0.08)",
-    "border_hover": "rgba(0, 229, 255, 0.4)",
-    "primary_accent": "#F5D90A",
-    "secondary_accent": "#00E5FF",
+    "background": {
+      "primary": "#F7F7F5",
+      "secondary": "#FFFFFF",
+      "tertiary": "#EBEBE8"
+    },
     "text": {
-      "primary": "#FAFAFA",
-      "secondary": "#A1A1AA",
-      "muted": "#71717A",
-      "inverse": "#050505"
+      "primary": "#121212",
+      "secondary": "#666666",
+      "inverse": "#F7F7F5"
+    },
+    "brand_accent": {
+      "primary": "#E54D2E",
+      "hover": "#C93C20",
+      "soft": "#FCECE9"
+    },
+    "borders": {
+      "default": "rgba(0, 0, 0, 0.08)",
+      "strong": "rgba(0, 0, 0, 1)"
     }
   },
   "layout_and_spacing": {
-    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-    "feed_grid": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8",
-    "hero_grid": "grid grid-cols-1 md:grid-cols-12 gap-6",
-    "spacing_scale": "Use generous padding: p-6 or p-8 inside cards to let images and data breathe.",
-    "borders": "1px solid border, rounded-none or max rounded-sm for a sharp, tactical look."
+    "philosophy": "Generous spacing. Bento grids over standard columns. Use padding extensively (p-8 to p-12). Grid elements should feel like distinct glass cases in a museum.",
+    "container": "max-w-7xl mx-auto px-6",
+    "bento_grid": "grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6",
+    "surface_styles": {
+      "default_card": "bg-white border border-neutral-200 shadow-sm rounded-none md:rounded-lg overflow-hidden",
+      "glass_header": "bg-white/70 backdrop-blur-xl border-b border-neutral-200 backdrop-saturate-150"
+    }
+  },
+  "ad_zones": {
+    "philosophy": "Ads must feel intentional, like high-end magazine placements, not bolted-on clutter.",
+    "zones": [
+      {
+        "id": "leaderboard",
+        "location": "Top of page, below nav, above hero",
+        "dimensions": "max-w-4xl w-full h-24 mx-auto",
+        "styling": "bg-neutral-100 border border-dashed border-neutral-300 relative flex items-center justify-center mb-12",
+        "label": "Absolute top-left corner, text-[9px] uppercase tracking-[0.2em] text-neutral-400 bg-white/80 px-2 py-1"
+      },
+      {
+        "id": "in_feed_native",
+        "location": "Inserted every 6th card in the deal feed grid",
+        "dimensions": "Matches standard deal card dimensions",
+        "styling": "bg-[#FAF8F5] border-2 border-dashed border-neutral-200 relative",
+        "label": "Top right pill: 'SPONSORED' in uppercase mono font, text-xs bg-white border border-neutral-200 px-2 py-1"
+      },
+      {
+        "id": "sidebar_rail",
+        "location": "Right column on the Product Detail Page, below the 'Join Group' CTA block",
+        "dimensions": "w-full aspect-[4/3] md:w-[300px] md:h-[250px]",
+        "styling": "bg-neutral-100 border border-dashed border-neutral-300 flex flex-col items-center justify-center",
+        "label": "text-[10px] tracking-widest text-neutral-400 mb-2 'ADVERTISEMENT'"
+      },
+      {
+        "id": "footer_banner",
+        "location": "Directly above the main footer links",
+        "dimensions": "w-full max-w-5xl h-32 mx-auto",
+        "styling": "bg-neutral-900 border border-neutral-800 flex items-center justify-center mt-24 mb-12",
+        "label": "text-[10px] tracking-widest text-neutral-500 'ADVERTISEMENT'"
+      }
+    ]
   },
   "components": {
     "deal_card": {
-      "wrapper": "relative group overflow-hidden bg-[#111111] border border-white/10 transition-colors duration-300 hover:border-[#00E5FF]/40",
-      "image_container": "relative aspect-[4/5] overflow-hidden bg-black/50",
-      "image": "w-full h-full object-cover transition-transform duration-500 group-hover:scale-110",
-      "content": "p-5 flex flex-col gap-3",
-      "price_row": "flex items-baseline justify-between mt-auto",
-      "current_price": "text-[#F5D90A] font-mono text-2xl font-bold",
-      "original_price": "text-[#71717A] font-mono text-sm line-through",
-      "discount_badge": "absolute top-4 right-4 bg-[#00E5FF] text-[#050505] font-mono font-bold px-3 py-1 text-sm shadow-[0_0_15px_rgba(0,229,255,0.4)] z-10",
-      "link_overlay": "absolute inset-0 z-20 cursor-pointer"
+      "structure": "Image top, content bottom.",
+      "image_container": "bg-neutral-100 p-6 flex items-center justify-center aspect-square relative group",
+      "image_behavior": "mix-blend-multiply (if white bg) or drop-shadow-xl. Hover: scale-105 transition-transform duration-500 ease-out",
+      "badges": "Absolute top-4 left-4. Discount badge uses brand_accent (bg-[#E54D2E] text-white px-3 py-1 text-sm font-bold)",
+      "content": "p-5 flex flex-col gap-2",
+      "typography": "Title: text-lg font-bold font-[Cabinet_Grotesk] tracking-tight leading-tight line-clamp-2. Price: text-2xl font-black text-neutral-900. Struck price: text-sm text-neutral-400 line-through.",
+      "footer": "flex justify-between items-center mt-2 pt-4 border-t border-neutral-100 text-sm text-neutral-500"
     },
-    "header": {
-      "wrapper": "sticky top-0 z-50 w-full backdrop-blur-xl bg-[#050505]/80 border-b border-white/10",
-      "nav": "flex items-center justify-between h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    "hero": {
+      "layout": "Asymmetric Bento Grid (Mode A). Left side: Massive typography, value prop, CTA. Right side: A 3D-feeling layout of 2-3 overlapping top collectibles or a rotating showcase.",
+      "typography": "H1: text-5xl md:text-6xl lg:text-7xl font-black font-[Cabinet_Grotesk] leading-[0.9] tracking-tighter text-neutral-900."
     },
-    "add_deal_form": {
-      "input": "w-full bg-black/50 border border-white/20 focus:border-[#00E5FF] focus:ring-1 focus:ring-[#00E5FF] text-white p-4 font-mono transition-all",
-      "button": "bg-[#F5D90A] text-[#050505] font-bold py-4 px-8 hover:bg-white transition-colors uppercase tracking-widest"
+    "header_nav": {
+      "layout": "Sticky top, crystal glassmorphism (glass_header style). Logo left (Cabinet Grotesk, font-black, text-2xl). Nav links center. 'Post Deal' CTA button right.",
+      "links": "text-sm font-medium hover:text-[#E54D2E] transition-colors"
+    },
+    "product_detail": {
+      "layout": "Grid cols-1 md:grid-cols-12 gap-12 pt-8. Left (cols 7): Massive image gallery on gray backdrop. Right (cols 5): Sticky details, price, 'Join Group' CTA block, followed by sidebar_rail ad zone."
+    },
+    "add_deal_modal": {
+      "styling": "Clean white modal, 1px neutral border, heavy shadow-2xl. Minimalist input fields (border-b only, or entirely rounded-lg shadcn inputs with subtle ring on focus). Focus state: ring-2 ring-[#E54D2E]/20 border-[#E54D2E]."
     }
   },
-  "motion": {
-    "feed_stagger": "Framer Motion: Initial opacity 0, y 20, staggerChildren 0.1s for feed entry.",
-    "hover_effects": "Subtle scale on images (scale-110), glow/shadow shift on borders.",
-    "page_transitions": "Smooth opacity fade in."
+  "motion_and_interaction": {
+    "hover_states": "Cards lift slightly (-translate-y-1) and cast a subtle shadow (shadow-lg) without changing border color. Images inside scale softly.",
+    "page_transitions": "Framer motion fade in and slide up (y: 20 -> 0, opacity: 0 -> 1) staggered for feed items.",
+    "buttons": "Primary CTA: bg-[#E54D2E] text-white hover:bg-[#C93C20] active:scale-95 transition-all."
+  },
+  "testing_attributes": {
+    "requirement": "ALL interactive and key informational elements MUST include a data-testid attribute. Format: kebab-case, role-based.",
+    "examples": ["data-testid='deal-card-container'", "data-testid='join-group-button'", "data-testid='add-deal-modal-trigger'"]
   },
   "media": {
-    "background_texture": [
-      "https://images.pexels.com/photos/12602054/pexels-photo-12602054.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-    ],
-    "action_figures": [
-      "https://images.unsplash.com/photo-1762008387452-25fe91ab3f90?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwzfHxhY3Rpb24lMjBmaWd1cmUlMjBjb2xsZWN0aWJsZSUyMGRhcmt8ZW58MHx8fHwxNzgwNTc2NzI3fDA&ixlib=rb-4.1.0&q=85",
-      "https://images.pexels.com/photos/37737303/pexels-photo-37737303.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      "https://images.pexels.com/photos/37737302/pexels-photo-37737302.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-    ],
-    "diecast_cars": [
-      "https://images.unsplash.com/photo-1645400379459-f6fd3d963fd4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwyfHxkaWVjYXN0JTIwbW9kZWwlMjBjYXIlMjBkYXJrfGVufDB8fHx8MTc4MDU3NjcyN3ww&ixlib=rb-4.1.0&q=85",
-      "https://images.pexels.com/photos/1863235/pexels-photo-1863235.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      "https://images.unsplash.com/photo-1668263019414-e71dbcd2dc80?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHw0fHxkaWVjYXN0JTIwbW9kZWwlMjBjYXIlMjBkYXJrfGVufDB8fHx8MTc4MDU3NjcyN3ww&ixlib=rb-4.1.0&q=85"
+    "images": [
+      {
+        "category": "hero_showcase",
+        "url": "https://images.unsplash.com/photo-1606663889134-b1dedb5ed8b7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwzfHxhY3Rpb24lMjBmaWd1cmUlMjB0b3klMjBwaG90b2dyYXBoeXxlbnwwfHx8fDE3ODA1ODc3OTF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Premium Goku action figure photography for hero section"
+      },
+      {
+        "category": "product_diecast",
+        "url": "https://images.unsplash.com/photo-1567643858189-ea55265faa2f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHxkaWUlMjBjYXN0JTIwbW9kZWwlMjBjYXIlMjBwaG90b2dyYXBoeXxlbnwwfHx8fDE3ODA1ODc3OTF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Sleek black die-cast model car"
+      },
+      {
+        "category": "product_anime",
+        "url": "https://images.unsplash.com/photo-1614583225154-5fcdda07019e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwyfHxhbmltZSUyMHN0YXR1ZSUyMGZpZ3VyZSUyMGRpc3BsYXl8ZW58MHx8fHwxNzgwNTg3NzkxfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Anime character statue"
+      }
     ]
   },
   "instructions_to_main_agent": [
-    "DO NOT use Inter or Roboto fonts anywhere. Implement Unbounded, Outfit, and JetBrains Mono.",
-    "Always apply 'data-testid' to interactive elements (e.g., data-testid='post-link-card', data-testid='add-deal-button').",
-    "Maintain the Luxury/Cyberpunk blend: dark UI, crisp 1px borders, neon accents, and no muddy gradients.",
-    "Use framer-motion for staggering the feed entries and hover interactions.",
-    "Ensure all E1 guidelines for layout (asymmetry, wide gaps, generous padding) are followed.",
-    "Create a succinct product card that clearly displays the discount badge, current price (highlighted), and original price (muted, strikethrough).",
-    "The empty state and add-deal form should feel premium and integrated, not just a standard Shadcn modal.",
-    "Use Phosphor icons or Lucide for UI iconography, ensuring sharp, consistent weights."
+    "Discard the old cyberpunk/neon theme entirely.",
+    "Implement the 'Museum / Display Case' light theme. Ensure vast negative space and precise padding.",
+    "Integrate the ad zones exactly as specified under 'ad_zones' property. They must be visible placeholders for the user to inject real ads later.",
+    "Use Cabinet Grotesk for headings and Satoshi for body (import via Fontshare or Google Fonts equivalents if needed, or stick strictly to local/custom CSS imports). If unavailable, use Clash Display or General Sans.",
+    "Ensure all components (especially Shadcn ones) are stripped of their default 'Vercel' look and customized to fit the high-contrast, subtle-border design guidelines.",
+    "Ensure all interactive elements have data-testid attributes."
   ]
 }
