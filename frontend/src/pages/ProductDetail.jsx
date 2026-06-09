@@ -61,7 +61,7 @@ export default function ProductDetail() {
     if (newJoined >= 3) {
       setTerminalOpen(true);
     }
-    toast.success("Abrindo o grupo no AliExpress...");
+    toast.success("Abrindo a oferta...");
     window.open(post.group_url, "_blank", "noopener,noreferrer");
   };
 
@@ -187,7 +187,7 @@ export default function ProductDetail() {
                       Preço de grupo
                     </div>
                     <div className="font-display text-sm sm:text-lg text-[#00ff66] leading-none mt-2">
-                      {post.current_price || "Ver no AliExpress"}
+                      {post.current_price || "Ver Oferta"}
                     </div>
                   </div>
                   <div className="text-right">
@@ -208,7 +208,7 @@ export default function ProductDetail() {
                   Entrar no grupo <BoxArrowUpRight size={14} />
                 </button>
                 <p className="font-body text-[10px] text-neutral-500 text-center mt-3 uppercase tracking-wider">
-                  Você será levado ao AliExpress com o grupo já aplicado.
+                  Você será levado ao site da oferta.
                 </p>
               </div>
 

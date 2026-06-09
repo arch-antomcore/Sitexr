@@ -37,7 +37,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
 
   const handleScrape = async () => {
     if (!form.group_url.startsWith("http")) {
-      toast.error("Cole um link válido do AliExpress (começando com http).");
+      toast.error("Cole um link válido (começando com http).");
       return;
     }
     setScraping(true);
@@ -62,7 +62,8 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
         toast.warning("Não consegui ler o link. Preencha manualmente abaixo.");
       }
     } catch (e) {
-      toast.error("Falha ao ler o link. Preencha os campos manualmente.");
+      console.error(e);
+      toast.error(`Falha na API: ${e.message}. (O Backend está rodando?)`);
       setFetched(true);
     } finally {
       setScraping(false);
@@ -93,7 +94,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
       >
         <DialogTitle className="sr-only">Divulgar grupo</DialogTitle>
         <DialogDescription className="sr-only">
-          Cole o link do grupo do AliExpress para criar um post automaticamente.
+          Cole o link de qualquer produto para criar um post automaticamente.
         </DialogDescription>
 
         {/* Hero Header */}
@@ -118,7 +119,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
               Compartilhe um Achado
             </h2>
             <p className="font-body text-xs text-neutral-400 mt-2 max-w-[340px]">
-              Cole o link do AliExpress e nós montamos a vitrine para o seu grupo automaticamente.
+              Cole o link do produto e nós montamos a vitrine para o seu grupo automaticamente.
             </p>
           </div>
         </div>
@@ -135,7 +136,7 @@ export const AddDealModal = ({ open, onOpenChange, onCreated }) => {
               <input
                 value={form.group_url}
                 onChange={(e) => set("group_url", e.target.value)}
-                placeholder="https://s.click.aliexpress.com/..."
+                placeholder="https://..."
                 data-testid="group-url-input"
                 className="w-full h-14 pl-12 pr-[130px] bg-[#0d0e12] border-4 border-black text-white focus:border-brand focus:outline-none font-mono text-xs shadow-[2px_2px_0px_#000000] placeholder:text-neutral-500"
               />
